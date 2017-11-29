@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png" />
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title></title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <!-- Bootstrap core CSS     -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <!--  Material Dashboard CSS    -->
+    <link href="../css/material-dashboard.css?v=1.2.0" rel="stylesheet" />
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="../css/demo.css" rel="stylesheet" />
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+       <!--  Map API -->
+    
+    <body>
+    <div class="wrapper">
+        <div class="sidebar" data-color="blue" data-image="../assets/img/sidebar-1.jpg">
+       <div class="logo">
+           
+           <hr>
+       </div>
+           
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                  
+                  
+                    <li class="#">
+                        <a href="../streets.html">
+                            <i class="material-icons">location_on</i>
+                            <p>Maps</p>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="add.html">
+                            <i class="material-icons">location_on</i>
+                            <p>AddData</p>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    
+        <div class="main-panel">
+            <nav class="navbar navbar-transparent navbar-absolute">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                            <div >
+                        <a class="navbar-brand" ><h4>แผนที่ตำบลในเวียง อ.เมือง จ.แพร่</h4></a>
+                        </div>
+                            </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="material-icons">dashboard</i>
+                                    <p class="hidden-lg hidden-md">Dashboard</p>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="material-icons">notifications</i>
+                                    <span class="notification">5</span>
+                                    <p class="hidden-lg hidden-md">Notifications</p>
+                                </a>
+                               
+                            <li>
+                                <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="material-icons">person</i>
+                                    <p class="hidden-lg hidden-md">Profile</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <form class="navbar-form navbar-right" role="search">
+                            <div class="form-group  is-empty">
+                                <input type="text" class="form-control" placeholder="Search">
+                                <span class="material-input"></span>
+                            </div>
+                            <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                                <i class="material-icons">search</i>
+                                <div class="ripple-container"></div>
+                            </button>
+                        </form>
+                    </div>
+                </div> 
+                <hr/>
+            </nav>
+
+
+          <!--  
+            <div class="row">
+                <div class="col-lg-8" style="padding-top: 110px " >
+                    <div style="height: 600px; width:800px " id="map"></div>
+                </div>
+                <div  class="col-lg-4">
+               
+                    <div class="container-fuid"  style="padding-top:50px">
+                    
+                        <hr>
+                    </div> 
+                    <div id="info"></div>
+                </div>            
+                
+        
+                     </div>
+                    <script>    
+                         $(document).ready(function() {
+                                 initMap();
+                             });
+                    </script> -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyA6Cvj4Y6L1_T2XeeSppTTNtm8BmikwgdY"></script>
+<script type="text/javascript" src="jquery-1.11.2.min.js" ></script>
+<script language="JavaScript">
+
+
+     var addloca = [];
+     var num = 0;
+
+//---------------function insert Street----------------
+     function saveLatLngStreet(){
+         var data = '';
+        for(var i=0; i< addloca.length; i++){
+            if (i == addloca.length-1) {
+                data += addloca[i][1]+' '+addloca[i][0]+')';
+            }else if(i == 0){
+                data += 'LINESTRING('+addloca[i][1]+' '+addloca[i][0]+' , ';
+            }else {
+                data += addloca[i][1]+' '+addloca[i][0]+' , ';
+            }
+
+
+//        } else if (i <= addloca.length+1) {
+//             data += 'LINESTRING('+addloca[i][1]+' '+addloca[i][0]+' , ';
+
+        }
+        console.log(data);
+         //
+            $.ajax({
+             method : "POST",
+             url: "insert_Street.php",
+             data: { addstreet:data }
+         }).done(function(text){
+             alert(text);
+
+         });
+     }
+//---------------function insert Damages----------------
+     function saveLatLngDamages(){
+         var data = '';
+          for(var i=0; i< addloca.length; i++){
+             if (i == 0) {
+                data += 'POINT('+addloca[i][1]+' '+addloca[i][0]+')';
+             }else{
+                console.log("erro");
+             }
+    
+         }
+         console.log(data);
+         //
+         $.ajax({
+             method : "POST",
+             url: "insert_Damages.php",
+             data: { adddamages:data }
+         }).done(function(text){
+             alert(text);
+
+         });
+     }
+
+//---------------function insert Village----------------
+
+     function saveLatLngVillage(){
+         var data = '';
+         for(var i=0; i< addloca.length; i++){
+             if (i == addloca.length-1) {
+                 data += addloca[i][1]+' '+addloca[i][0]+'))';
+             }else if(i == 0){
+                 data += 'POLYGON(('+addloca[i][1]+' '+addloca[i][0]+' , ';
+             }else {
+                 data += addloca[i][1]+' '+addloca[i][0]+' , ';
+             }
+         }
+         console.log(data);
+         //
+         $.ajax({
+             method : "POST",
+             url: "insert_Village.php",
+             data: { addvillage:data }
+         }).done(function(text){
+             alert(text);
+
+         });
+     }
+
+
+     function addlocation() {
+         addloca[num] = [$("#lat").val(),$("#lng").val(),$('#location_name').val()];
+         num++;
+         console.log(addloca);
+     }
+
+     function setupMap() {
+         var myOptions = {
+             zoom: 8,
+             center: new google.maps.LatLng(18.146871,100.138661),
+             mapTypeId: google.maps.MapTypeId.ROADMAP
+         };
+         var map = new google.maps.Map(document.getElementById('map_canvas'),
+             myOptions);
+
+         var marker = new google.maps.Marker({
+             map:map,
+             position: new google.maps.LatLng(18.146871,100.138661),
+             draggable: true
+         });
+
+         var infowindow = new google.maps.InfoWindow({
+             map:map,
+             content: "home me",
+             position:  new google.maps.LatLng(18.146871,100.138661)
+         });
+
+         google.maps.event.addListener(map,'click',function(event){
+             var html = '';
+             html += 'lat : <input type="text" id="lat" value="'+event.latLng.lat()+'" /><br/>';
+             html += 'lng : <input type="text" id="lng" value="'+event.latLng.lng()+'" /><br/>';
+             html += '<input type="button" value="Add" onclick="addlocation()">';
+             html += '<input type="button" value="Vill age" onclick="saveLatLngVillage()" />';
+             html += '<input type="button" value="Street"  onclick="saveLatLngStreet()" />';
+             html += '<input type="button" value="Damages" onclick="saveLatLngDamages()" />';
+             
+             infowindow.open(map,marker);
+             infowindow.setContent(html);
+             infowindow.setPosition(event.latLng);
+             marker.setPosition(event.latLng);
+
+         });
+
+     }
+
+ </script>
+     
+ 
+</head>
+<body onload="setupMap()">
+    <div class="container">
+        
+    </div>
+    <div class="row">
+        <div class="col-lg-8" style="padding-top: 100px " >
+        <div id="map_canvas"  style="height: 800px; width:1655px " >
+        </div>
+    </div>
+    </body>
+       
+             
+</body>
+
+</html>
